@@ -1,197 +1,12 @@
-<<<<<<< HEAD
-# StudyAI — Smart Study Scheduler
-
-AI-powered academic task manager for engineering students.
-Combines MERN full-stack development, Machine Learning, Generative AI (Claude),
-Google Calendar integration, and Firebase authentication.
-
----
-
-## Architecture Overview
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Frontend  React 18 + TypeScript + Tailwind CSS             │
-│  (Port 3000)  Persian Blue / Tata design system             │
-│  Zustand state · React Query · Chart.js analytics           │
-└───────────────────────────┬─────────────────────────────────┘
-                            │ REST API
-┌───────────────────────────▼─────────────────────────────────┐
-│  Backend   Node.js + Express + TypeScript                   │
-│  (Port 5000)                                                │
-│  Firebase Auth Middleware · Mongoose ODM                    │
-│  Google Calendar API · Firebase Push Notifications          │
-│  Claude (Anthropic) API for study plan generation           │
-└──────────┬─────────────────────────┬────────────────────────┘
-           │ Mongoose                │ axios
-┌──────────▼──────────┐   ┌──────────▼──────────────────────┐
-│  MongoDB             │   │  AI Service  FastAPI + Python   │
-│  (Port 27017)        │   │  (Port 8000)                    │
-│  Users · Tasks       │   │  Ridge Regression (time pred)   │
-│  ScheduleBlocks      │   │  Multi-factor Recommender       │
-│  StudySessions       │   │  EDF Scheduling Algorithm       │
-│  AIStudyPlans        │   │  Incremental model retraining   │
-└─────────────────────┘   └─────────────────────────────────┘
-```
-
----
-
-## Quick Start
-
-### Prerequisites
-- Node.js 20+
-- Python 3.11+
-- MongoDB 7+ (local or Atlas)
-- Firebase project (Authentication + Cloud Messaging)
-- Google Cloud project (Calendar API enabled)
-- Anthropic API key
-
-### 1 — Clone and install
-
-```bash
-git clone <repo-url>
-cd smart-study-scheduler
-
-# Backend
-cd backend
-cp .env.example .env        # fill in all values
-npm install
-
-# Frontend
-cd ../frontend
-cp .env.example .env.local  # fill in Firebase config
-npm install
-
-# AI Service
-cd ../ai-service
-python -m venv venv
-source venv/bin/activate     # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-### 2 — Configure environment
-
-**backend/.env** — required keys:
-| Key | Where to get it |
-|-----|----------------|
-| MONGODB_URI | MongoDB Atlas or local |
-| FIREBASE_PROJECT_ID | Firebase console > Project settings |
-| FIREBASE_PRIVATE_KEY | Firebase console > Service accounts > Generate key |
-| FIREBASE_CLIENT_EMAIL | Same JSON file |
-| GOOGLE_CLIENT_ID | Google Cloud console > OAuth 2.0 |
-| GOOGLE_CLIENT_SECRET | Same |
-| ANTHROPIC_API_KEY | console.anthropic.com |
-
-**frontend/.env.local** — copy values from Firebase console > Your apps > Web app config.
-
-### 3 — Run in development
-
-```bash
-# Terminal 1 — MongoDB
-mongod
-
-# Terminal 2 — Backend
-cd backend && npm run dev
-
-# Terminal 3 — AI Service
-cd ai-service && uvicorn main:app --reload --port 8000
-
-# Terminal 4 — Frontend
-cd frontend && npm run dev
-```
-
-Open http://localhost:3000
-
-### 4 — Docker (full stack)
-
-```bash
-# Copy and fill backend/.env first
-docker compose up --build
-```
-
----
-
-## API Reference
-
-### Backend (Express — port 5000)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/auth/register | Create user profile |
-| GET | /api/auth/me | Get current user |
-| GET | /api/tasks | List all tasks |
-| POST | /api/tasks | Create task |
-| PUT | /api/tasks/:id | Update task |
-| DELETE | /api/tasks/:id | Delete task |
-| PATCH | /api/tasks/:id/complete | Mark complete |
-| PATCH | /api/tasks/:id/skip | Mark skipped |
-| POST | /api/schedule/generate | AI schedule generation |
-| GET | /api/schedule | Fetch schedule blocks |
-| POST | /api/schedule/sync-calendar | Push to Google Calendar |
-| GET | /api/analytics | Full analytics dashboard |
-| GET | /api/ai/recommend | Next task recommendation |
-| POST | /api/ai/generate-plan | Claude AI study plan |
-| GET | /api/calendar/auth | Start Google OAuth flow |
-
-### AI Service (FastAPI — port 8000)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /predict-time | Regression time prediction |
-| POST | /recommend | Task recommendation engine |
-| POST | /optimize-schedule | EDF schedule optimizer |
-| POST | /update-model | Feed real data for retraining |
-
-Interactive docs at http://localhost:8000/docs
-
----
-
-## AI & ML Components
-
-### Time Prediction (Ridge Regression)
-- Features: difficulty, estimated hours, subject category (OHE)
-- Bootstraps from 400 synthetic seed samples
-- Incrementally retrains every 20 real completions
-- Prediction feeds into schedule optimizer as more accurate hour estimates
-
-### Recommendation Engine
-- Weighted scoring: deadline proximity (45%) + priority (25%) + difficulty (15%) + effort (10%) + status (5%)
-- Exponential urgency curve for deadlines
-- Returns top-1 recommendation + 3 alternatives
-
-### EDF Scheduling Algorithm
-- Earliest Deadline First with priority tiebreaking
-- Sessions chunked to max 2 h to prevent fatigue
-- Respects user's preferred time windows (morning/afternoon/evening/night)
-- Emits feasibility score and warnings for over-committed schedules
-
-### Claude AI Study Plans
-- Called via Anthropic SDK with a structured JSON prompt
-- Returns breakdown sections, daily goals, and resource recommendations
-- Plans are persisted and can be regenerated on demand
-
----
-
-## Deployment
-
-### Vercel (Frontend)
-```bash
-cd frontend && vercel --prod
-```
-
-### Railway / Render (Backend + AI Service)
-- Set env vars in dashboard
-- Use Dockerfile for each service
-
-### MongoDB Atlas
-- Free tier sufficient for development
-- Replace MONGODB_URI with Atlas connection string
-=======
 # TaskTrack AI
+
+An AI-powered academic productivity platform that helps students manage assignments, optimize study schedules, predict effort requirements, and generate personalized study plans using Machine Learning and Generative AI.
+
+---
 
 ## Overview
 
-TaskTrack AI is an intelligent study scheduling and task optimization platform designed to help students manage academic workloads efficiently. The system combines full-stack web development, machine learning, recommendation systems, and generative AI to automatically prioritize tasks, optimize study schedules, adapt to missed deadlines, and improve productivity.
+TaskTrack AI is an intelligent study scheduling and task optimization platform designed to assist students in managing academic workloads effectively. The system combines full-stack web development, machine learning, recommendation systems, and generative AI to automatically prioritize tasks, optimize study schedules, adapt to missed deadlines, and improve productivity.
 
 The platform addresses common challenges faced by students, including poor task prioritization, inefficient time management, deadline conflicts, and lack of adaptive planning.
 
@@ -199,7 +14,7 @@ The platform addresses common challenges faced by students, including poor task 
 
 ## Problem Statement
 
-Students often manage multiple assignments, projects, examinations, practical submissions, and extracurricular commitments simultaneously. Traditional calendars and task management tools provide task storage but lack intelligent decision-making capabilities.
+Students frequently manage multiple assignments, projects, examinations, practical submissions, internships, and extracurricular commitments simultaneously. Traditional calendars and task management applications provide task storage but lack intelligent decision-making capabilities.
 
 Existing solutions typically do not:
 
@@ -207,9 +22,32 @@ Existing solutions typically do not:
 * Predict effort required for completion
 * Adapt schedules when tasks are skipped
 * Optimize study sessions based on deadlines
-* Recommend the next best task to perform
+* Recommend the most important task at any given time
+* Generate personalized study plans
 
-TaskTrack AI solves these limitations through automated scheduling, machine learning-based predictions, and AI-assisted planning.
+TaskTrack AI addresses these limitations through intelligent scheduling, machine learning-based predictions, recommendation systems, and generative AI assistance.
+
+---
+
+## Solution Approach
+
+TaskTrack AI continuously analyzes:
+
+* Assignment deadlines
+* Task priorities
+* Subject difficulty levels
+* Estimated study effort
+* User productivity patterns
+* Historical completion data
+
+Based on this information, the platform:
+
+1. Predicts required study time using machine learning models.
+2. Prioritizes tasks according to urgency and importance.
+3. Generates optimized study schedules.
+4. Adapts schedules when tasks are delayed or skipped.
+5. Recommends the next best task to work on.
+6. Generates personalized AI-powered study plans.
 
 ---
 
@@ -217,55 +55,56 @@ TaskTrack AI solves these limitations through automated scheduling, machine lear
 
 ### Smart Task Scheduling
 
-* Deadline-aware task prioritization
-* Automatic schedule generation
+* Deadline-aware scheduling
+* Automated timetable generation
+* Intelligent workload balancing
 * Study session optimization
-* Intelligent workload distribution
 
 ### Adaptive Rescheduling
 
-* Detects missed or skipped tasks
-* Recalculates priorities automatically
-* Updates future schedules dynamically
+* Detects missed tasks automatically
+* Recalculates priorities dynamically
+* Updates future schedules in real time
 
 ### Recommendation Engine
 
 * Suggests the next best task
-* Considers urgency, difficulty, and workload
-* Learns from user behavior
+* Considers urgency, workload, and difficulty
+* Learns from user behavior patterns
 
 ### Time Prediction
 
 * Estimates study hours required
 * Uses machine learning regression models
-* Improves predictions over time
+* Improves predictions based on historical data
 
 ### Generative AI Assistance
 
-* AI-generated study plans
-* Topic breakdowns
-* Revision schedules
-* Practice questions
-* Smart notes generation
+* Personalized study plans
+* Topic breakdown generation
+* Revision schedule creation
+* Learning recommendations
+* Study strategy suggestions
 
-### Calendar Integration
+### Google Calendar Integration
 
-* Google Calendar synchronization
+* Calendar synchronization
 * Automatic event creation
 * Real-time schedule updates
 
 ### Analytics Dashboard
 
 * Productivity tracking
-* Study hour analysis
+* Study-hour analytics
 * Completion statistics
 * Deadline monitoring
 
-### Notifications
+### Notification System
 
 * Assignment reminders
-* Deadline warnings
-* Study session alerts
+* Deadline alerts
+* Study session notifications
+* Schedule change updates
 
 ---
 
@@ -273,11 +112,12 @@ TaskTrack AI solves these limitations through automated scheduling, machine lear
 
 ### Frontend
 
-* Astro 5.16
-* SolidJS 1.9
+* React 18
 * TypeScript
-* Tailwind CSS 4.1
+* Tailwind CSS
 * Chart.js
+* Zustand
+* React Query
 
 ### Backend
 
@@ -288,23 +128,27 @@ TaskTrack AI solves these limitations through automated scheduling, machine lear
 ### Database
 
 * MongoDB Atlas
+* Mongoose ODM
 
 ### AI Service
 
 * Python
 * FastAPI
-* Scikit-learn
-* Pandas
+* Scikit-Learn
 * NumPy
+* Pandas
 
-### Authentication and Notifications
+### Authentication
 
 * Firebase Authentication
+
+### Notifications
+
 * Firebase Cloud Messaging
 
 ### AI Integration
 
-* Claude API
+* Claude API (Anthropic)
 
 ### External Integrations
 
@@ -314,133 +158,334 @@ TaskTrack AI solves these limitations through automated scheduling, machine lear
 
 ## System Architecture
 
-Frontend (Astro + SolidJS)
-
-↓
-
-Backend API (Express.js)
-
-↓
-
-MongoDB Atlas
-
-↓
-
-AI Service (FastAPI)
-
-↓
-
+```text
+Frontend (React + TypeScript + Tailwind CSS)
+                │
+                ▼
+Backend API (Node.js + Express)
+                │
+                ▼
+MongoDB Database
+                │
+      ┌─────────┴─────────┐
+      ▼                   ▼
+AI Service          Firebase Services
+(FastAPI)           Authentication
+      │             Notifications
+      ▼
 Machine Learning Models
-
-↓
-
-Claude API
-
-↓
-
+      │
+      ▼
+Claude AI API
+      │
+      ▼
 Google Calendar API
-
-↓
-
-Firebase Authentication & Notifications
-
----
-
-## Core Modules
-
-### User Management
-
-* Authentication
-* Profile Management
-* User Preferences
-
-### Task Management
-
-* Task Creation
-* Task Editing
-* Deadline Tracking
-* Progress Monitoring
-
-### Scheduling Engine
-
-* Priority Calculation
-* Time Allocation
-* Adaptive Rescheduling
-
-### Recommendation Engine
-
-* Next Task Prediction
-* Productivity Analysis
-
-### Analytics Engine
-
-* Performance Metrics
-* Progress Reports
-* Study Insights
->>>>>>> b2c8928639e4a7ff16be435f2773569fa15c4121
+```
 
 ---
 
 ## Project Structure
 
-<<<<<<< HEAD
-```
-smart-study-scheduler/
-├── frontend/           # React 18 + TypeScript + Tailwind
+```text
+TaskTrackAI/
+│
+├── frontend/
 │   ├── src/
-│   │   ├── components/ # Layout, UI atoms, modals
-│   │   ├── pages/      # Dashboard, Tasks, Schedule, Analytics, StudyPlan
-│   │   ├── hooks/      # useAuth, useTasks, useAuthStore
-│   │   ├── types/      # Centralised TypeScript types
-│   │   ├── config/     # Firebase, constants
-│   │   └── utils/      # apiClient, dateUtils
-├── backend/            # Node.js + Express + TypeScript
-│   └── src/
-│       ├── models/     # User, Task, ScheduleBlock, StudySession, AIStudyPlan
-│       ├── routes/     # auth, tasks, schedule, analytics, ai, calendar
-│       ├── middleware/ # authenticate (Firebase), errorHandler
-│       └── services/   # googleCalendar, notifications, claudePrompts
-└── ai-service/         # Python FastAPI
-    ├── routers/        # predict, recommend, schedule, model_update
-    ├── services/       # time_predictor, recommender, scheduler
-    └── models/         # Pydantic schemas + saved .pkl files
+│   ├── components/
+│   ├── pages/
+│   ├── hooks/
+│   ├── services/
+│   ├── utils/
+│   └── assets/
+│
+├── backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── controllers/
+│   │   ├── middleware/
+│   │   ├── services/
+│   │   ├── models/
+│   │   └── config/
+│
+├── ai-service/
+│   ├── models/
+│   ├── services/
+│   ├── routers/
+│   ├── training/
+│   └── datasets/
+│
+├── docs/
+├── docker-compose.yml
+├── README.md
+└── .gitignore
 ```
-=======
-frontend/
-backend/
-ai-service/
 
-### Frontend
+---
 
-* Astro
-* SolidJS Components
-* Dashboard UI
-* Analytics Views
+## Installation
+
+### Prerequisites
+
+* Node.js 20+
+* Python 3.11+
+* MongoDB Atlas or MongoDB Local
+* Firebase Project
+* Google Cloud Project
+* Claude API Key
+
+---
+
+### Clone Repository
+
+```bash
+git clone https://github.com/sanikatare/TasktrackAI.git
+
+cd TasktrackAI
+```
+
+---
+
+## Backend Setup
+
+```bash
+cd backend
+
+npm install
+```
+
+Create a `.env` file inside the backend directory:
+
+```env
+PORT=5000
+
+MONGODB_URI=
+
+JWT_SECRET=
+
+FIREBASE_PROJECT_ID=
+FIREBASE_PRIVATE_KEY=
+FIREBASE_CLIENT_EMAIL=
+
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+ANTHROPIC_API_KEY=
+```
+
+Start the backend server:
+
+```bash
+npm run dev
+```
+
+---
+
+## Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+```
+
+Create a `.env.local` file and add Firebase configuration values.
+
+Start the frontend:
+
+```bash
+npm run dev
+```
+
+---
+
+## AI Service Setup
+
+```bash
+cd ai-service
+
+python -m venv venv
+```
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the AI service:
+
+```bash
+uvicorn main:app --reload
+```
+
+---
+
+## Running the Complete Application
 
 ### Backend
 
-* REST APIs
-* Authentication
-* Business Logic
-* Calendar Integration
+```bash
+npm run dev
+```
+
+### Frontend
+
+```bash
+npm run dev
+```
 
 ### AI Service
 
-* Schedule Optimization
-* Time Prediction
-* Recommendation Models
+```bash
+uvicorn main:app --reload
+```
+
+Application URLs:
+
+```text
+Frontend:  http://localhost:3000
+Backend:   http://localhost:5000
+AI Docs:   http://localhost:8000/docs
+```
+
+---
+
+## AI and Machine Learning Components
+
+### Time Prediction Model
+
+Uses Ridge Regression to estimate:
+
+* Task completion duration
+* Required study effort
+* Future workload expectations
+
+### Recommendation Engine
+
+Prioritizes tasks using:
+
+* Deadline urgency
+* Task priority
+* Difficulty level
+* Estimated effort
+
+Provides:
+
+* Best next task recommendation
+* Alternative task suggestions
+
+### Schedule Optimization
+
+Implements:
+
+* Earliest Deadline First (EDF)
+* Dynamic workload balancing
+* Fatigue-aware study sessions
+
+### Claude AI Integration
+
+Generates:
+
+* Personalized study plans
+* Revision schedules
+* Topic breakdowns
+* Learning recommendations
+
+---
+
+## API Overview
+
+### Authentication APIs
+
+```http
+POST /api/auth/register
+GET  /api/auth/me
+```
+
+### Task APIs
+
+```http
+GET    /api/tasks
+POST   /api/tasks
+PUT    /api/tasks/:id
+DELETE /api/tasks/:id
+PATCH  /api/tasks/:id/complete
+```
+
+### Scheduling APIs
+
+```http
+POST /api/schedule/generate
+GET  /api/schedule
+POST /api/schedule/sync-calendar
+```
+
+### AI APIs
+
+```http
+POST /api/ai/recommend
+POST /api/ai/generate-plan
+```
+
+---
+
+## Deployment
+
+### Frontend
+
+Deploy using:
+
+* Vercel
+* Netlify
+
+### Backend
+
+Deploy using:
+
+* Railway
+* Render
+* AWS
+
+### Database
+
+* MongoDB Atlas
+
+### AI Service
+
+* Railway
+* Render
+* Docker
+
+### Docker
+
+```bash
+docker compose up --build
+```
 
 ---
 
 ## Future Enhancements
 
-* Reinforcement Learning for scheduling
-* Multi-device synchronization
+* Reinforcement Learning based scheduling
+* Mobile application
+* Offline support
 * Collaborative study groups
-* Exam preparation mode
 * Voice assistant integration
-* Mobile application support
-* Offline scheduling support
+* Examination preparation mode
+* Cross-device synchronization
+* Advanced learning analytics
 
 ---
 
@@ -448,18 +493,27 @@ ai-service/
 
 This project demonstrates:
 
-* Full-Stack Web Development
-* MERN Ecosystem Concepts
+* Full Stack Development
+* System Design
+* REST API Development
 * Machine Learning Integration
 * Recommendation Systems
 * Generative AI Applications
 * Cloud Services Integration
-* API Development
-* System Design and Architecture
+* Authentication Systems
+* Database Design
+* Software Architecture
+
+---
+
+## Author
+
+Sanika Tare
+
+GitHub: https://github.com/sanikatare
 
 ---
 
 ## License
 
 This project is licensed under the MIT License.
->>>>>>> b2c8928639e4a7ff16be435f2773569fa15c4121
