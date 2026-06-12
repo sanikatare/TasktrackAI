@@ -506,14 +506,6 @@ This project demonstrates:
 
 ---
 
-## Author
-
-Sanika Tare
-
-GitHub: https://github.com/sanikatare
-
----
-
 ## License
 
 This project is licensed under the MIT License.
